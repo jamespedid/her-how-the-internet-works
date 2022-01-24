@@ -10,7 +10,7 @@ function createClientRepl(socket) {
     }
 
     const replServer = repl.start({
-        prompt: 'Ask the magic eightball a question: ',
+        prompt: 'Ask the magic eightball a yes or no question: ',
         eval: sendCommand,
     });
 

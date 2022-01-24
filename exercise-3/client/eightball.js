@@ -5,12 +5,13 @@
         const responseElement = document.getElementById('response');
         const inputElement = document.getElementById('question');
         const inputFormElement = document.getElementById('input-form');
+        const inputSubmitElement = document.getElementById('input-submit');
         
         inputFormElement.addEventListener('submit', event => {
             event.preventDefault();
 
             const input = inputElement.value;
-            inputFormElement.setAttribute('disabled', 'disabled');
+            inputSubmitElement.disabled = true;
             
             responseElement.textContent = 'Asking...'
 
@@ -21,7 +22,7 @@
                 return httpResponse.text();
             }).then(response => {
                 responseElement.textContent = `Magic eightball says: ${response}`;
-                inputFormElement.removeAttribute('disabled');
+                inputSubmitElement.disabled = false;
             });
         })
     }
