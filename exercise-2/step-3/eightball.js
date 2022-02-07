@@ -1,27 +1,30 @@
 (function loadApplication() {
-    console.log('loading application');
     window.addEventListener('load', onLoad);
 
     function onLoad() {
         const responseElement = document.getElementById('response');
         const inputElement = document.getElementById('question');
         const inputFormElement = document.getElementById('input-form');
-        
-        inputFormElement.addEventListener('submit', event => {
-            event.preventDefault();
+        const inputSubmitElement = document.getElementById('input-submit');
 
-            const input = inputElement.value;
-            inputFormElement.setAttribute('disabled', 'disabled');
+        inputFormElement.addEventListener('submit', onSubmit);
+
+        function onSubmit(event) {
+            event.preventDefault(); // this will stop the default form submit behavior from occurring.
+
+            const value = inputElement.value;
             
-            responseElement.textContent = 'Asking...'
+            responseElement.textContent = 'Asking...';
+            inputSubmitElement.disabled = true;
+            inputElement.disabled = true;
 
-            setTimeout(() => {
-                const response = chooseEightballResponse(input);
-                responseElement.textContent = `Magic eightball says: ${response}`;
-                inputFormElement.removeAttribute('disabled');
-            }, 2000);
-        })
-    } 
+            setTimeout(function onTimeout () {
+                responseElement.textContent = chooseEightballResponse(value);
+                inputSubmitElement.disabled = false;
+                inputElement.disabled = false;
+            }, 2000) // 2000 milliseconds is two seconds.
+        }
+    }
 
     const EightBallResponses = [
         'It is certain.',
@@ -46,23 +49,23 @@
         'Very doubtful.',
     ];
     const EightBallRandomThreshold = 0.25;
-    
+
     function chooseEightballResponse(input) {
         if (shouldReplyWithRandomResponse()) {
             return chooseRandomReply();
         }
         return chooseReplyFromInputHash(input);
     }
-    
+
     function shouldReplyWithRandomResponse() {
         return Math.random() < EightBallRandomThreshold;
     }
-    
+
     function chooseRandomReply() {
         const replyIndex = Math.floor(Math.random() * EightBallResponses.length);
         return EightBallResponses[replyIndex];
     }
-    
+
     function chooseReplyFromInputHash(input) {
         let replyIndex = 0;
         for (let i = 0; i < input.length; i += 1) {
