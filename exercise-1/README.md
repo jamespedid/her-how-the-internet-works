@@ -61,7 +61,6 @@ function chooseEightballResponse(input) {
 We can test this function by immediately calling it in the `server.js` file and then running the file from the terminal. Add the following below the `chooseEightballResponse` function.
 
 ```javascript
-// 
 console.log(chooseEightballResponse('Is this a question?'));
 ```
 
@@ -70,12 +69,15 @@ From inside the example1 folder, run
 node ./server.js
 // My reply is no.
 ```
+<!---
+Might want to make it clearer that "My reply is no." is the response - right now it looks like a comment that may or may not get put into server.js along with the line above it.
+-->
 
 Here we have solved the first possibility: we have a random eightball that can produce a random reply from a question. However, sometimes this might not be desired. Instead, we might want to produce an answer to a question based on the input, and always return that same response for that input. For this, we can use a hashing function.
 
 A hashing function is a function that can produce a number from an input. In this case, we're going to produce a simple hashing function to turn a string into a number. From there, we will produce a number between 0 and `EightballResponses.length`
 
-To do this, we're going to loop over a string and get the character code for each of the character. The character code is a numeric representation of a character in a string based on a well-known standard. Then we will divide it by `EightballResponses.length` and take the remainder to get a number between 0 and `EightballResponses.length - 1` inclusive.
+To do this, we're going to loop over a string and get the character code for each of the characters. The character code is a numeric representation of a character in a string based on a well-known standard. Then we will divide it by `EightballResponses.length` and take the remainder to get a number between 0 and `EightballResponses.length - 1` inclusive.
 
 ```javascript
 function chooseEightballResponse(input) {
@@ -88,6 +90,9 @@ function chooseEightballResponse(input) {
     return EightballResponses[remainder];
 }
 ```
+<!---
+why is EightballResponses.length hard-coded on line 88?
+-->
 
 Again, we can test this using the calling and logging the function.
 
@@ -119,7 +124,7 @@ function chooseReplyFromInputHash(input) {
 }
 ```
 
-Now this function that we produced will randomly decide to choose a random reply, or to choose a more stable reply. Let's test it a few times
+Now this function that we produced will randomly decide to choose a random reply, or to choose a more stable reply. Let's test it a few times.
 
 ```javascript
 for (let i = 0; i < 10; i += 1) {
@@ -155,7 +160,10 @@ The first thing we have to do to create a tcp server is to use the `createServer
 const server = net.createServer();
 ```
 
-The `server` object that created here is an event emitter. An event emitter allows for subscriptions to be added to it. These subscriptions are javascript functions that are called when the event emitter decides to 'raise' an event.
+The `server` object that's created here is an event emitter. An event emitter allows for subscriptions to be added to it. These subscriptions are javascript functions that are called when the event emitter decides to 'raise' an event.
+<!---
+might want to include something a little more illustrative here to explain what an event emitter is and what subscriptions are. I'd go with something like, "An event emitter raises events, such as ___. You can create subscriptions to these emitters - a subscription is a javascript function that gets called when an event is raised."
+-->
 
 Example Event Emitter (contrived code)
 ```javascript
@@ -165,8 +173,11 @@ event.on('test', function onTest(value) { console.log(value); })
 event.emit('test', 'this is the test value') // onTest('this is the test value') 
                                              // is called at this point
 ```
+<!---
+this example shows what the code looks like, but gives no description or understanding of how it works
+-->
 
-For this server object, there are two events that are raised that we care about: The `connection` event, and the `listening` event. We will use the `listening` event to simply log that we are now listening for incoming connections. We will use the `connection` event to get access to a `socket` object. More on what a `socket` object is will be be explained shortly.
+For this server object, there are two events that are raised that we care about: The `connection` event, and the `listening` event. We will use the `listening` event to simply log that we are listening for incoming connections, and it will run as soon as we tell the server to start listening. We will use the `connection` event to get access to a `socket` object. More on what a `socket` object is will be be explained shortly.
 
 First, we'll have a simple logging message when the `listening` event is raised.
 
@@ -178,13 +189,13 @@ server.on('listening', () => {
 
 You'll notice that I snuck in a variable that called `EightballServerPort`. We can define this in the server.js file as `const EightballServerPort = 8888`. This will be used in the future step when we tell the server to actually start listening.
 
-Next, we'll subscribe to the `connection` event. Here we are given a `socket` object as a parameter to the callback function. The `socket` object represents an individual connection. That is to say, each `socket` will belong to a client that is connecting to the server.
+Next, we'll subscribe to the `connection` event. When we write the callback function for this subscription, we include an expectation for a `socket` object to be passed in as a parameter. The `socket` object represents an individual connection. That is to say, each `socket` will belong to a client that is connecting to the server.
 
-The `socket` object is also an event emitter. For this example, we will only care about the `data` event. The `data` event will return a string or buffer that contains the question that is being asked. We will configure the socket to always return a string, so we won't have to worry about what a buffer is.
+The `socket` object is also an event emitter. For this example, we will only care about the socket's `data` event. The `data` event will return a string that contains the question that is being asked. This event could return either a string or a buffer, but we will configure the socket to always return a string so we won't have to worry about what a buffer is.
 
-A `socket` is also a two-way street. In addition to receiving data during its `data` event, it can write back to the client a response using the `write` method.
+A `socket` is a two-way street. In addition to receiving data during its `data` event, it can write back to the client a response using the `write` method.
 
-So to receive a message from a connection, we need to implement a callback on the `server`'s `connection` event. That callback will allow us to subscribe to a `socket`'s `data` event which will give us access to the question being sent in by the client.
+So to receive a message from a connection, we need to implement a callback on the `server`'s `connection` event. That callback will allow us to subscribe to a `socket`'s `data` event, which will give us access to the question being sent in by the client.
 
 ```javascript
 server.on('connection', socket => {
@@ -198,7 +209,7 @@ server.on('connection', socket => {
 });
 ```
 
-Lastly, we need to generate the response to the question and write it to the socket
+Lastly, we need to generate the response to the question and write it to the socket:
 
 ```javascript
 const output = chooseEightballResponse(data);
@@ -206,7 +217,7 @@ console.log(`replying to ${data} with ${output}`);
 socket.write(output); // writes the reply back to the client.
 ```
 
-The only thing we have left to do is actually listen to the server
+The only thing we have left to do is actually listen to the server.
 
 ```javascript
 server.listen(EightballServerPort);
@@ -260,7 +271,7 @@ function createClientRepl() {
 }
 ```
 
-The `repl` package boasts a method called `start`, which creates a `replServer` object. The `replServer` object has an `exit` event that we'll subscribe to so that it plays nice with the rest of the `NodeJS` process. It also has a function called `displayPrompt` that can be used to gather input from the end user. Finally, the `replServer` object also has an output property that is a writable stream; it is an object with a `write` method that we can be used to send messages to.
+The `repl` package boasts a method called `start`, which creates a `replServer` object. The `replServer` object has an `exit` event that we'll subscribe to so that it plays nice with the rest of the `NodeJS` process. It also has a function called `displayPrompt` that can be used to gather input from the end user. Finally, the `replServer` object also has an output property that is a writable stream; it is an object with a `write` method that we can send messages to.
 
 ```javascript
 function createClientRepl() {
@@ -290,7 +301,7 @@ const replServer = repl.start({
 });
 ```
 
-So now we have a REPL that can take in a user question, but all it is doing is logging that we are asking the magic eightball that question, and then immediately asking for a new question to be input. This will give us some scaffolding to work with to integrate connecting to the server with.
+So now we have a REPL that can take in a user question - but all it is doing is logging that we are asking the magic eightball that question, and then immediately asking for a new question to be input. This will give us some scaffolding to work with to integrate connecting to the server.
 
 ## Step 4 - Integrating a Connection Into the REPL
 
@@ -334,7 +345,7 @@ Notice that we are now calling the createClientRepl function with a parameter: `
 function createClientRepl(socket) {
 ```
 
-From here, we'll need to do two things: First we'll need to write the question to the socket during the `sendCommand` function. Second, we need to subscribe isten to the `data` event of the socket. In this subscription callback, we'll print the answer to the question, and then we'll move the `replServer.displayPrompt` in here as well so that only one question can be asked at a time.
+From here, we'll need to do two things: First we'll need to write the question to the socket during the `sendCommand` function. Second, we need to subscribe to the `data` event of the socket. In this subscription callback, we'll print the answer to the question, and then we'll move the `replServer.displayPrompt` in here as well so that only one question can be asked at a time.
 
 ```javascript
 function sendCommand(input) {
@@ -405,7 +416,7 @@ function createClient() {
 createClient();
 ```
 
-Now we can run `server.js` and `client.js` in two different terminals to start a server and then ask questions to it
+Now we can run `server.js` and `client.js` in two different terminals to start a server and then ask questions to it!
 
 ```bash 
 node ./server.js
