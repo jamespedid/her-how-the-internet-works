@@ -2,9 +2,9 @@
 
 ## Goal
 
-The goal of Magic 8-Ball Client Side Application is to create a web page using HTML and Javascript to produce a client side magic eightball application. This application demonstrates that some websites can operate just by having client-side code that runs in the browser, and not using any backend servers.
+The goal of the Magic 8-Ball Client Side Application project is to create a web page using HTML and Javascript to produce a client side magic eightball application. This application demonstrates that some websites can operate just by having client-side code that runs in the browser, and not using any backend servers.
 
-For this web page, we'll have an input element to accept a magic eightball question as input. Then we'll compute a response for the magic eightball on the client side
+For this web page, we'll have an input element to accept a magic eightball question as input. Then we'll compute a response for the magic eightball on the client side.
 
 ## Step 1 - Creating the HTML
 
@@ -13,7 +13,7 @@ An HTML document is a text document that is used to describe the "structure" of 
 As a recap, an HTML document is written using blocks. A block is something of the form `<tag attributeName="attributeValue"> tagBody </tag>`. There's a few important pieces here: 
 
 1. A block is a start tag, followed by contents, followed by an ending tag.
-2. the starting tag begins with a tag name, and then may be followed by attributes.
+2. The starting tag begins with a tag name, and then may be followed by attributes.
 3. The contents of an HTML block can be empty, text, or another HTML block.
 
 HTML begins and ends with a single block. Everything else is nested inside of that block. The tag of that block must be `html`. Further, we subdivide this html block using exactly two html elements: the `head` tag and the `body` tag.
@@ -27,11 +27,11 @@ On a side node, if an html block has no content, we can shorthand the block by c
 </html>
 ```
 
-Anything inside of the `head` tag _will not_ be rendered in by the browser. Instead, we typically require resources, such as CSS or Javascript files in the `head`.
+Anything inside of the `head` tag _will not_ be rendered in the browser. Instead, we typically require resources, such as CSS or Javascript files, in the `head`.
 
-Anything inside of the `body` of the html tag will be rendered in the browser, where the user can then interact with it.
+Anything inside of the `body` tag will be rendered in the browser, where the user can then interact with it.
 
-Let's create a simple HTML page called `eightball.html` file that shows the included Eightball image.
+Let's create a simple HTML page called `eightball.html` that shows the included Eightball image.
 
 ```html
 <html>
@@ -42,7 +42,7 @@ Let's create a simple HTML page called `eightball.html` file that shows the incl
 </html>
 ```
 
-We can open this webpage by opening the eightball.html file in the chrome browser. Opening it we'll see a magic eightball sitting on a page with a white background.
+We can open this webpage by opening the `eightball.html` file in the chrome browser. Opening it, we'll see a magic eightball sitting on a page with a white background.
 
 For this web page, we'll need to know about some valid html tags that are recognized by the browser. We'll use the `main`, `section`, `p`, `form`, `input`, `button` and `script` tags. 
 
@@ -58,9 +58,9 @@ For now, let's remove the eightball image and put in a `main` block followed by 
 </html>
 ```
 
-If we reload the page in the browser, we'll see that the Eightball is now missing. We can verify that the page is what we're expecting by opening the Chrome Developer Tools by hitting F12 while having the chrome browser as the active window. Inside the developer tools, we can click on the elements tab to see the loaded HTML document. We will see the same HTML structure that we have.
+If we reload the page in the browser, we'll see that the Eightball is now missing. We can verify that the page is what we're expecting by opening the Chrome Developer Tools (while the chrome browser is the active window, hit F12). Inside the developer tools, we can click on the `elements` tab to see the loaded HTML document. We will see the same HTML structure that we have.
 
-Now, let's add two sections into the `main` block. Inside the first section, let's add the eightball image back in, and then add in a `p` tag with no contents. A `p` tag is a _paragraph_ tag; it is a tag where the expected contents is text. We'll also want to give the `p` tag an attribute called `id` and have a value of `response` for that `id` attribute.
+Now, let's add two sections into the `main` block. Inside the first section, let's add the eightball image back in, and then add in a `p` tag with no contents. A `p` tag is a _paragraph_ tag; the expected content is text. We'll also want to give the `p` tag an attribute called `id` and have a value of `response` for that `id` attribute.
 
 ```html
 <html>
@@ -80,7 +80,7 @@ Now, let's add two sections into the `main` block. Inside the first section, let
 
 If we reload the page, we will see the magic eightball image once more, along with an empty text paragraph we added right underneath it.
 
-In the second section, first add `p` tag with the contents of `Ask the eightball a yes or no question`. Then add a `form` tag with an `id` of `input-form`. Then, inside of the `form` tag, add an `input` tag with an `id` of `question` and a `type` attribute of `text` (the input element has no contents so we close it using the shorthand tag version); also add a button with id of `input-submit` and type of `submit`, and the contents of the button will be text `Ask the Eightball`.
+In the second section, first add `p` tag with the contents: `Ask the eightball a yes or no question`. Then add a `form` tag with an `id` of `input-form`. Then, inside of the `form` tag, add an `input` tag with an `id` of `question` and a `type` attribute of `text`. The input element has no contents, so we close it using the shorthand tag version. Also add a button with id of `input-submit` and type of `submit`, and the contents of the button will be text `Ask the Eightball`.
 
 ```html
 <html>
@@ -108,7 +108,7 @@ In the second section, first add `p` tag with the contents of `Ask the eightball
 </html>
 ```
 
-If we refresh the page, we'll see an text input element that you can type into, and a button that does nothing when clicked.
+If we refresh the page, we'll see a text input element that you can type into, and a button that does nothing when clicked.
 
 Let's also inspect the developer tools to see that the elements tab shows the correct HTML structure that we would expect.
 
@@ -120,7 +120,7 @@ Up until this point, we have an empty script tag in our HTML document. Let's add
 
 We are able to use the `src` attribute to refer to javascript written in another file, in this case the `eightball.js` file.
 
-Here, we're going to use a technique called an _Immediately Invoked Function Expression_, or IIFE for short. Create an empty function called `loadApplication` and wrap the entire function in parentheses. Then, after the close parentheses, immediately call the function.
+Here, we're going to use a technique called an _Immediately Invoked Function Expression_, or IIFE for short. In your `eightball.js` file, create an empty function called `loadApplication` and wrap the entire function in parentheses. Then, after the close parentheses, immediately call the function.
 
 ```javascript
 (function loadApplication() {
@@ -132,7 +132,7 @@ Here, we're going to use a technique called an _Immediately Invoked Function Exp
 
 Inside the `loadApplication` function, let's have something happen when the page is done loading. That thing will be to make the button work. There is a special variable available to javascript in the browser called the `window` object. This object is the top-most level object in the entire javascript hierarchy.
 
-Conveniently enough, this window object is an event emitter. And one of it's events is the `load` event. So let's create a function called `onLoad` and subscribe it to the `load` event of the `window` object.
+Conveniently enough, this window object is an event emitter, and one of its events is the `load` event. So let's create a function called `onLoad` and subscribe it to the `load` event of the `window` object.
 
 ```javascript
 (function loadApplication() {
@@ -144,13 +144,13 @@ Conveniently enough, this window object is an event emitter. And one of it's eve
 })();
 ```
 
-Let's clarify what it means that _the window object is the top-most level object in the entire javascript hierarchy_. The browser interprets and HTML document and produces a rendered piece of content that can be interacted with. To do this, the browser maintains javascript objects that represent the different pieces of HTML in memory. These javascript objects were coded part of a well-defined standard on how to do this, called the Document Object Model, or the DOM for short.
+Let's clarify what it means that _the window object is the top-most level object in the entire javascript hierarchy_. The browser interprets an HTML document and produces a rendered piece of content that can be interacted with. To do this, the browser maintains javascript objects that represent the different pieces of HTML in memory. These javascript objects were coded as part of a well-defined standard on how to do this, called the Document Object Model, or the DOM for short.
 
 The `window` object is the parent object that hosts the rendering process. Inside the `window`, the HTML document is read and interpreted into a javascript object stored in the `document` variable on the `window` object.
 
 The reason we do the IIFE technique is to make sure that any variables we define do not end up in the global scope on the `window` object. This can lead to some cumbersome interactions when using shared code, so instead we want to make our variables private to other javascript scopes.
 
-The `document` variable also then has access to the javascript objects belonging `body` and the `head` as special properties. We can also access the javascript objects belonging to various tags using various means. The javascript objects corresponding to tags are called _elements_. We added `id` attributes into the HTML to help us find a few of these elements that we will be working with.
+This way, the `document` variable has access, as special properties, to the javascript objects belonging to `body` and `head`. We can also access the javascript objects belonging to various other tags using various means. The javascript objects corresponding to tags are called _elements_. We added `id` attributes into the HTML to help us find a few of the elements that we will be working with.
 
 Let's go ahead and get some of those elements at the beginning of the onLoad function and store those into variables.
 
@@ -169,7 +169,7 @@ Let's go ahead and get some of those elements at the beginning of the onLoad fun
 
 Now that we have these elements, we can do things with them. First off, every element in the browser is an event emitter and has a wide catalog of events that can be subscribed to. Second, each of these elements has access to a variety of properties that can be useful when handling events issued to elements.
 
-The `form` element that we added has an event called the `submit` event. This event is triggered whenever a button inside the form that has a `type` of `submit` is clicked. The default behavior of the form submit will cause an HTTP request to go to a server somewhere. We'll instead tell the browser not to do this, but to instead do something else. For now, we'll have it log to the console in the developer tools.
+The `form` element that we added has an event called the `submit` event. This event is triggered whenever a button inside the form that has a `type` of `submit` is clicked. The default behavior of the form submit will cause an HTTP request to go to a server somewhere. We'll instead tell the browser _not_ to do this, and do something else. For now, we'll have it log to the console in the developer tools.
 
 ```javascript
 (function loadApplication() {
@@ -196,7 +196,7 @@ The `form` element that we added has an event called the `submit` event. This ev
 
 ## Step 3 - Incorporating Magic Eightball Logic
 
-Now, we'll incorporate the logic to choose a magic eightball reply and write it to the `p` element with the id of `response`. Borrowing from what we used in `exercise-1`, we can copy and paste that logic into here for reuse. (There are other ways for code reuse, but that's outside of the scope of this course.)
+Now, we'll incorporate the logic to choose a magic eightball reply and write it to the `p` element with the id of `response`. Borrowing from what we used in `exercise-1`, we can copy and paste that logic into here for reuse. (There are other ways of reusing code, but that's outside of the scope of this course.)
 
 We can read the contents of the `input` element by looking at the `value` property of the `inputElement` variable. We can then set the output value of the magic eightball reply to be on the `textContent` property of the `responseElement`.
 
@@ -258,7 +258,7 @@ function chooseReplyFromInputHash(input) {
 }
 ```
 
-Now we can click the button and the response element will have the contents of the magic eightball reply. However, this is a little rushed and unsatisfying. Instead, let's simulate an artificial wait by using the setTimeout function. The setTimeout function accepts a callback and a time to wait, measured in milliseconds. We'll wait two seconds before setting the output. We'll also disable the input and button elements during this time.
+Now we can click the button, and the response element will have the contents of the magic eightball reply. However, this is a little rushed and unsatisfying. Instead, let's simulate an artificial wait by using the setTimeout function. The setTimeout function accepts a callback and a time to wait, measured in milliseconds. We'll wait two seconds before setting the output. We'll also disable the input and button elements during this time.
 
 ```javascript
 function onSubmit(event) {
