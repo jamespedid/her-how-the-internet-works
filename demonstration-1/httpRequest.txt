@@ -1,0 +1,6 @@
+GET / HTTP/1.1
+Accept: */*
+Host: www.google.com:80
+User-Agent: handwritten
+Connection: close
+
