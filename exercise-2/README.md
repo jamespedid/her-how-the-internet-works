@@ -6,6 +6,15 @@ The goal of the Magic 8-Ball Client Side Application project is to create a web 
 
 For this web page, we'll have an input element to accept a magic eightball question as input. Then we'll compute a response for the magic eightball on the client side.
 
+## Step 0 - Run npm install in the exercise-2 folder and run server to start a static webserver
+
+```bash
+npm install
+node ./server.js
+```
+
+All work done in this exercise will be in the workarea folder.
+
 ## Step 1 - Creating the HTML
 
 An HTML document is a text document that is used to describe the "structure" of a web page. The MIME type of an HTML document is typically `text/html` or `application/html`. 
@@ -42,7 +51,7 @@ Let's create a simple HTML page called `eightball.html` that shows the included 
 </html>
 ```
 
-We can open this webpage by opening the `eightball.html` file in the chrome browser. Opening it, we'll see a magic eightball sitting on a page with a white background.
+We can open this webpage by going to `http://localhost:8888/eightball.html` file in the chrome browser. Opening it, we'll see a magic eightball sitting on a page with a white background.
 
 For this web page, we'll need to know about some valid html tags that are recognized by the browser. We'll use the `main`, `section`, `p`, `form`, `input`, `button` and `script` tags. 
 

@@ -113,6 +113,8 @@ Magic eightball webserver listening on port 8888
 
 If we go to the browser, we should be able to view the web page by going to `http://localhost:8888/`.
 
+Note: if this fails to start, we have to make sure we shut down the webserver that we were running in exercise-2.
+
 ## Step 2 - Adding a Magic 8-ball Handler
 
 Now we can add in the magic 8-ball logic that we have created before to our web-server to dynamically show content based on the entered magic eightball response. 
@@ -141,3 +143,57 @@ app.use('/api/eightball',
 
 So now when someone sends a POST request to our server at `http://localhost:8888/api/eightball` we'll reply with a magic 8-ball response after a short artificial delay.
 
+## Step 3 - Modifying the Client Side Code
+
+At this point, even though we have added the logic to perform a magic 8-ball request using HTTP, we still are not using it from our client side code. Let's open up `client/eightball.js`. Inside of this file, we need to remove all of the logic that is used to generate a magic 8-ball reply.
+
+```javascript
+(function loadApplication() {
+    window.addEventListener('load', onLoad);
+
+    function onLoad() {
+        const responseElement = document.getElementById('response');
+        const inputElement = document.getElementById('question');
+        const inputFormElement = document.getElementById('input-form');
+        const inputSubmitElement = document.getElementById('input-submit');
+
+        inputFormElement.addEventListener('submit', onSubmit);
+
+        function onSubmit(event) {
+            event.preventDefault(); // this will stop the default form submit behavior from occurring.
+
+            const value = inputElement.value;
+            
+            responseElement.textContent = 'Asking...';
+            inputSubmitElement.disabled = true;
+            inputElement.disabled = true;
+
+            // setTimeout(function onTimeout () {
+            //     responseElement.textContent = chooseEightballResponse(value);
+            //     inputSubmitElement.disabled = false;
+            //     inputElement.disabled = false;
+            // }, 2000) // 2000 milliseconds is two seconds.
+        }
+    }
+})();
+```
+
+Now let's make an HTTP request using the `fetch` library.
+
+```javascript
+inputElement.disabled = true;
+
+fetch('./api/eightball', {
+    method: 'POST',
+    body: value
+}).then(response => {
+    return response.text();
+}).then(response => {
+    responseElement.textContent = response;
+}).finally(() => {
+    inputSubmitElement.disabled = false;
+    inputElement.disabled = false;
+});
+```
+
+Now when we click the button, we should get the magic 8-ball from the web server instead of being generated on the client side.

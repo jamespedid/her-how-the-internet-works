@@ -14,7 +14,7 @@ function initializeServer(){
         }
         next();
     })
-    app.use('/', express.static(path.join(__dirname, '..', 'client')));
+    app.use(express.static(path.join(__dirname, '..', 'client')));
 
     app.listen(MagicEightballServerPort, () => {
         console.log(`Magic eightball webserver listening on port ${MagicEightballServerPort}`);

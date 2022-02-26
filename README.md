@@ -104,9 +104,9 @@ As mentioned before, HTTP is built on top of TCP. HTTP has multiple versions: HT
 HTTP sends text messages over TCP in a way that was similar to the way the Magic 8-ball questions were sent to the server we built in exercise-1. The HTTP Message has a format that looks like this
 
 ```http
-VERB /relative-path HTTP/1.1  
-Header: Value
-AnotherHeader: Value
+GET /relative-path HTTP/1.1  
+Accept: */*
+Host: 127.0.0.1:80
 <blank line>
 <any body of bytes>
 ```
@@ -186,7 +186,31 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 
 ## Static Web Servers
 
+A server that understands and processes HTTP requests is called a Web Server. The first web servers were what is known today as a static web server. A static web server processed the path of the HTTP request corresponds to a location in a file system relative to a root file path. The web servers themselves send entire files without any additional processing to a server.
 
+The most typical usage of this is to send a specific kind of document called an HTML document. An HTML document is a text-based document that is intended to be interpreted by a web browser. A web browser will take the file and interpret it to provide a prettier representation of what that HTML document is. In fact, displaying HTML documents that it receives from static web servers is the original intention behind the web browser. With just a few HTML documents, a simple, static web site with multiple pages can be created with ease.
+
+To see what the early days of the internet was like, feel free to browse the original website for the 1996 movie Space Jam:
+
+https://www.spacejam.com/1996/
+
+## Exercise 2 - Serving simple HTTP content with a static webserver.
+
+Let's now build a magic 8-ball application using HTML and Javascript. This one will serve the files off of a static webserver that we run with node.
+
+[Magic 8-Ball Client-Side Web Application](exercise-2/README.md)
+
+## Dynamic Web Servers
+
+As we have seen, we can use a static web server to provide files from the file system to clients using a web browser, and this can have interactive content that happens in the browser. However, we can do so much more with web servers.
+
+When an HTTP request is made to a web server, the only expectation is that eventually (and hopefully somewhat rapidly) that the web server will provide with a valid HTTP response. This HTTP response really can be anything, even something that the requester did not intend to receive. Malicious usage aside, we can use this to our advantage to do work before replying with an HTTP response.
+
+## Exercise 3 - Serving dynamic HTTP content with a dynamic webserver.
+
+For our magic 8-ball application, let's change our code so that instead of generating the magic 8-ball on the client side only, let's instead have it generated in response to an HTTP request.
+
+[Magic 8-Ball Client-Server Web Application](exercise-3/README.md)
 
 ## Credits / Attributions
 
